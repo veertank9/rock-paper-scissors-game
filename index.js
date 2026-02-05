@@ -2,79 +2,57 @@ const choices = document.querySelectorAll(".choice");
 
 let userSc = 0;
 let compSc = 0;
+
 const userScore = document.querySelector("#user-score");
 const compScore = document.querySelector("#comp-score");
-
 const result = document.querySelector(".dis-result");
-
 const compSelect = document.querySelector("#comp-select");
 const userSelect = document.querySelector("#user-select");
 
 const gencompChoice = () => {
     const option = ["rock", "paper", "scissors"];
-    const randinx = Math.floor(Math.random() * 3);
-    return option[randinx];
-}
+    return option[Math.floor(Math.random() * 3)];
+};
 
-
-const playGam = (userChoice) => {
-
+const playGame = (userChoice) => {
     const compChoice = gencompChoice();
-    compSelect.innerText = `Computer choice: ${compChoice}`;
-    userSelect.innerText = `Your choice: ${userChoice}`;
 
-    if (userChoice === "rock" && compChoice === "paper") {
-        result.innerText = "YOU LOST";
-        compSc++
-        compScore.innerText = compSc;
-        result.style.backgroundColor = "rgba(255, 0, 0, 1)";
-    } else if (userChoice === "rock" && compChoice === "scissors") {
-        result.innerText = "YOU WIN";
-        userSc++
-        userScore.innerText = userSc;
-        result.style.backgroundColor = "rgba(0, 255, 76, 1)";
-    } else if (userChoice === "paper" && compChoice === "rock") {
-        result.innerText = "YOU WIN";
-        userSc++
-        userScore.innerText = userSc;
-        result.style.backgroundColor = "rgba(0, 255, 76, 1)";
-    } else if (userChoice === "paper" && compChoice === "scissors") {
-        result.innerText = "YOU LOST";
-        compSc++
-        compScore.innerText = compSc;
-        result.style.backgroundColor = "rgba(255, 0, 0, 1)";
-    } else if (userChoice === "scissors" && compChoice === "rock") {
-        result.innerText = "YOU LOST";
-        compSc++
-        compScore.innerText = compSc;
-        result.style.backgroundColor = "rgba(255, 0, 0, 1)";
-    } else if (userChoice === "scissors" && compChoice === "paper") {
-        result.innerText = "YOU WIN";
-        userSc++
-        userScore.innerText = userSc;
-        result.style.backgroundColor = "rgba(0, 255, 4, 1)";
-    } else {
+    compSelect.innerText = `Computer choice : ${compChoice}`;
+    userSelect.innerText = `Your choice : ${userChoice}`;
+
+    if (userChoice === compChoice) {
         result.innerText = "GAME WAS DRAW";
-        result.style.backgroundColor = "rgba(0, 26, 255, 1)";
+        result.style.backgroundColor = "blue";
+    } 
+    else if (
+        (userChoice === "rock" && compChoice === "scissors") ||
+        (userChoice === "paper" && compChoice === "rock") ||
+        (userChoice === "scissors" && compChoice === "paper")
+    ) {
+        result.innerText = "YOU WIN";
+        result.style.backgroundColor = "green";
+        userSc++;
+        userScore.innerText = userSc;
+    } 
+    else {
+        result.innerText = "YOU LOST";
+        result.style.backgroundColor = "red";
+        compSc++;
+        compScore.innerText = compSc;
     }
+};
 
-}
-
-choices.forEach((choice) => {
+choices.forEach(choice => {
     choice.addEventListener("click", () => {
-        const userChoice = choice.getAttribute("id");
-        playGam(userChoice);
+        playGame(choice.id);
     });
 });
 
-let but = document.querySelector("#button");
-
-but.addEventListener("click", () => {
-
+document.querySelector("#button").addEventListener("click", () => {
     userSc = 0;
     compSc = 0;
-    userScore.innerText = userSc;
-    compScore.innerText = compSc;
-
-})
-
+    userScore.innerText = 0;
+    compScore.innerText = 0;
+    result.innerText = "Lets play your move";
+    result.style.backgroundColor = "transparent";
+});
